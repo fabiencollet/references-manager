@@ -8,17 +8,13 @@ setup(
                       'Flask',
                       'bs4',
                       'requests',
-                      'pillow'],
-    setup_requires=['pyqt5',
-                      'PyQtWebEngine',
-                      'Flask',
-                      'bs4',
-                      'requests',
-                      'pillow'],
+                      'pillow'], 
+                      
+    python_requires='>=3.6',
+    
     url='http://www.fabiencollet.com',
     license='MIT',
     author='Fabien Collet',
     author_email='fbncollet@gmail.com',
     description='Web-Based application to organize and display pictures create by and for digital artist',
-    platforms=['MacOS', 'Windows', 'Linux'],
 )
