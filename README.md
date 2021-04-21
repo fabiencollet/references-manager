@@ -1,7 +1,7 @@
 # References Manager
 Web-Based application to organize and display pictures create by and for digital artist
 
-<![references-manager](>static/docs/screen_01.png)
+![references-manager](>static/docs/screen_01.png)
 
 Features
 --------
