@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header-title pure-u-1">
+  <h1>Tag - {{current_tag}}</h1>
+  <a href="/tag?deleteTag={{current_tag}}" class="pure-button button-error">Delete Tag {{current_tag}}</a>
+</div>
+
+
+<div class="pure-u-1">
+  <div class="form-content">
+  {% for tag in tags %}
+    {% if tag == current_tag %}
+    <a href="/tag/{{tag}}" class="pure-button active">{{tag}}</a>
+    {% else %}
+    <a href="/tag/{{tag}}" class="pure-button">{{tag}}</a>
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+
+
+<div class="form-content">
+<form class="pure-form" action ="http://localhost:5000/add_new_tag" method = "post">
+  <fieldset>
+    <legend class="pure-u-1">Add new Tag</legend>
+    <input type="text" class="pure-u-1" placeholder="Tag" name="tag">
+    <button type="submit" class="pure-button pure-button-primary">Add</button>
+  </fieldset>
+</form>
+</div>
+
+<div class="gallery pure-u-1">
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 1 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+          <a href="/tag/{{current_tag}}?delete={{pictures[i]['url']}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 2 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+          <a href="/tag/{{current_tag}}?delete={{pictures[i]['url']}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 3 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+          <a href="/tag/{{current_tag}}?delete={{pictures[i]['url']}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 4 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+          <a href="/tag/{{current_tag}}?delete={{pictures[i]['url']}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+	<span class="close">×</span>
+	<img class="modal-content" id="img01">
+	<div id="caption"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+
+{% endblock %}

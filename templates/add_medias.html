@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header-title pure-u-1">
+    <h1>ADD MEDIAS</h1>
+    <h4>{{info}}</h4>
+</div>
+
+<div class="form-content">
+<form class="pure-form" action ="http://localhost:5000/add_local_picture" method = "post" enctype="multipart/form-data">
+    <fieldset>
+        <legend class="pure-u-1">Add picture from local</legend>
+        <input type="file" placeholder="File" class="pure-u-1" name="url"/>
+        <label class="pure-u-1" for="local-artist">Artist</label>
+        <select id="local-artist" name="artist">
+                  {% for artist in artists %}
+                    <option value="{{artist}}">{{artist}}</option>
+                  {% endfor %}
+        </select>
+        <button type="submit" class="pure-button pure-button-primary">Import</button>
+    </fieldset>
+</form>
+
+
+
+<form class="pure-form" action ="http://localhost:5000/add_url_picture" method = "post">
+  <fieldset>
+
+    <legend class="pure-u-1">Add picture from url</legend>
+
+      <input type="url" class="pure-u-1" placeholder="Url" name="url">
+      <label class="pure-u-1" for="stacked-artist">Artist</label>
+      <select id="stacked-artist" name="artist">
+                  {% for artist in artists %}
+                    <option value="{{artist}}">{{artist}}</option>
+                  {% endfor %}
+        </select>
+    <label for="save-local" class="pure-u-1">
+          <input type="checkbox" id="save-local" name="save_local"/> Save to local </label>
+    <button type="submit" class="pure-button pure-button-primary">Submit</button>
+  </fieldset>
+</form>
+
+
+
+<form class="pure-form" role="search" action ="http://localhost:5000/scrap_by_url" method = "post">
+  <legend class="pure-u-1">Scrap pictures on webpage </legend>
+  <fieldset>
+      <input type="text" class="pure-u-1" placeholder="Url" name="url">
+      <label class="pure-u-1" for="scrap-artist">Artist</label>
+        <select id="scrap-artist" name="artist">
+                  {% for artist in artists %}
+                    <option value="{{artist}}">{{artist}}</option>
+                  {% endfor %}
+        </select>
+    <label for="scrap-local" class="pure-u-1">
+          <input type="checkbox" id="scrap-local" name="scrap-local"/> Save to local </label>
+    <button type="submit" class="pure-button pure-button-primary">Submit</button>
+  </fieldset>
+</form>
+
+<form class="pure-form" role="search" action ="http://localhost:5000/fix_database" method = "post">
+    <legend class="pure-u-1">Fix Database </legend>
+    <fieldset>
+    <button type="submit" class="pure-button pure-button-primary">Fix it !</button>
+    </fieldset>
+</form>
+
+</div>
+
+{% endblock %}

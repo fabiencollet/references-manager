@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header-title pure-u-1">
+  <h1>Gallery</h1>
+  <p>Resize the browser window to see the responsive effect.</p>
+  <p>Number Pictures : {{nb_pictures}}</p>
+  <p>Medias : {{medias}}</p>
+</div>
+
+
+<div class="gallery">
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 1 %}
+      <img src="{{pictures[i]['url']}}" style="width:100%">
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 2 %}
+      <img src="{{pictures[i]['url']}}" style="width:100%">
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 3 %}
+      <img src="{{pictures[i]['url']}}" style="width:100%">
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 4 %}
+      <img src="{{pictures[i]['url']}}" style="width:100%">
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

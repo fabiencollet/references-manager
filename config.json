@@ -1,0 +1,23 @@
+{
+  "server": {
+    "ip": "127.0.0.1",
+    "port": "5000"
+  },
+  "software": {
+    "krita": "D:\\Program Files\\Krita (x64)\\bin\\krita.exe",
+    "pureref": "D:\\Program Files\\PureRef\\PureRef.exe"
+  },
+  "database": "references.sqlite",
+  "allowed_extensions": [
+    "png",
+    "jpg",
+    "jpeg",
+    "gif"
+  ],
+  "tags": [
+    "2D",
+    "3D",
+    "Sketch",
+    "Keyframe"
+    ]
+}

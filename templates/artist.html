@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Header -->
+<div class="header-title pure-u-1">
+  <h1>Artist - {{current_artist}}</h1>
+  <a href="/delete?artist={{current_artist}}" class="pure-button button-error">Delete {{current_artist}}</a>
+</div>
+
+
+<div class="pure-u-1">
+  <div class="form-content">
+
+    {% for artist in artists %}
+      {% if artist == current_artist %}
+        <a href="/artist/{{artist}}" class="pure-button active">{{artist}}</a>
+      {% else %}
+        <a href="/artist/{{artist}}" class="pure-button">{{artist}}</a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<div class="form-content">
+
+
+
+<form class="pure-form" action ="http://localhost:5000/add_new_artist" method = "post">
+  <fieldset>
+    <legend class="pure-u-1">Add new Artist</legend>
+    <input type="text" class="pure-u-1" placeholder="Artist" name="artist">
+    <button type="submit" class="pure-button pure-button-primary">Add</button>
+  </fieldset>
+</form>
+</div>
+
+<div class="gallery pure-u-1">
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 1 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+          <a href="/artist/{{current_artist}}?delete={{pictures[i]['url']}}#img{{i}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 2 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+            <a href="/artist/{{current_artist}}?delete={{pictures[i]['url']}}#img{{i}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 3 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+            <a href="/artist/{{current_artist}}?delete={{pictures[i]['url']}}#img{{i}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="col-gallery">
+    {% for i in pictures %}
+      {% if pictures[i]["column"] == 4 %}
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+            <a href="/artist/{{current_artist}}?delete={{pictures[i]['url']}}#img{{i}}" class="delete">x</a>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+	<span class="close">×</span>
+	<img class="modal-content" id="img01">
+	<div id="caption"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
+
+{% endblock %}
