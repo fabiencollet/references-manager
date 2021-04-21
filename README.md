@@ -46,13 +46,21 @@ Installation
    ```
     > cd C:\Users\<username>\Documents\references-manager
    ```
-   - OSx and linux:
+   - OSX :
     ```
-    > cd /user/<username>/Documents/references-manager
+    > cd /Users/<username>/references-manager
+   ```
+   - Linux :
+   ```
+    > cd /home/<username>/references-manager
    ```
 4. Install python dependencies with the command
    ```
     > pip install .
+   ```
+   or
+   ```
+    > pip3 install .
    ```
 5. It's Done !!
 
@@ -63,5 +71,18 @@ Launch App
 1. Open the file app.py
 
 ### Web mode
-1. Open the file run_server.bat
-2. Open the file open.bat
+
+#### Windows
+
+1. Open the file run_server_win.bat
+2. Open the file open_win.bat
+
+#### OSX
+
+1. Open the file run_server_osx.bat
+2. Open the file open_osx.bat
+
+#### Linux
+
+1. Open the file run_server_linux.bat
+2. Open the file open_linux.bat
