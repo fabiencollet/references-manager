@@ -24,14 +24,14 @@ Dependencies
 
 ### Packages :
 
-| Python Packages      | 
-| -------------------- | 
-| pyqt5                |
-| PyQtWebEngine        |
-| Flask                |
-| pillow               |
-| requests             |
-| bs4                  |
+| Python Packages      | Version     |
+| -------------------- | ----------- |
+| pyqt5                | \>= 5.14.5  |
+| PyQtWebEngine        | \>= 5.14.5  |
+| Flask                | \>= 1.1.2   |
+| pillow               | \>= 7.0.0   |
+| requests             | \>= 2.22.0  |
+| bs4                  | \>= 0.0.1   |
 
 Installation
 ------------
@@ -67,22 +67,22 @@ Installation
 Launch App
 ----------
 
-### Desktop mode
+### Desktop Browser
 1. Open the file app.py
 
-### Web mode
+### Web Browser
 
 #### Windows
 
-1. Open the file run_server_win.bat
-2. Open the file open_win.bat
+1. launch run_server_win.bat
+2. launch file open_win.bat
 
 #### OSX
 
-1. Open the file run_server_osx.bat
-2. Open the file open_osx.bat
+1. launch run_server_osx.sh
+2. launch open_osx.sh
 
 #### Linux
 
-1. Open the file run_server_linux.bat
-2. Open the file open_linux.bat
+1. launch run_server_linux.sh
+2. launch open_linux.sh
