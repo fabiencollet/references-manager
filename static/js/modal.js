@@ -4,19 +4,19 @@ var images = document.getElementsByClassName("project-image");
 
 // Get the image and insert it inside the modal - use its "alt" text as a caption
 
-function selectMenu(){
+function selectMenu(e){
 
     var div_options = document.getElementsByClassName("options");
 
     console.log(div_options);
 
-    if(this.innerHTML == "Select"){
-        this.innerHTML = "Close";
-        this.className = "pure-button button-error";
+    if(e.innerHTML == "Select"){
+        e.innerHTML = "Close";
+        e.className = "pure-button button-error";
     }
     else{
-        this.innerHTML = "Select";
-        this.className = "pure-button pure-button-primary";
+        e.innerHTML = "Select";
+        e.className = "pure-button pure-button-primary";
     }
 
     for (i = 0; i < images.length; i++){
