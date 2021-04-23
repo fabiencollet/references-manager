@@ -3,28 +3,26 @@
 
 <!-- Header -->
 <div class="header-title pure-u-1">
-    <h2>Artist - <a href="/artist/{{current_artist}}" class="tag-link">{{current_artist}}</a></h2>
-    <h2>Tags -
-        {% set list_tags = current_tags.split(",") %}
-        {% for tag in list_tags %}
-        <a href="/tag/{{tag}}" class="tag-link">{{tag}}</a>
+
+    <h2> Edit Selected -
+        {% for url in urls %}
+        <a href="/edit?url={{url}}" class="tag-link">{{url}}</a>
         {% endfor %}
     </h2>
-    <h2>Color - <a href="/color?hue={{color[0]}}&sat={{color[1]}}&val={{color[2]}}" class="tag-link"> hue={{color[0]}} saturation={{color[1]}} value={{color[2]}} </a></h2>
 </div>
 
-<div class="pure-u-1">
-  <img src="{{url}}" class="image-edit">
-
+<div class="form-content">
+    {% for url in urls %}
+    <img src="{{url}}" class="image-multi">
+    {% endfor %}
 </div>
 
 <div class="pure-u-1">
     <div class="form-content">
-        <form class="pure-form" action ="http://localhost:5000/edit?url={{url}}" method = "post">
+        <form class="pure-form">
           <fieldset>
+              <input type="text" class="pure-u-1-2"  id="urls" value="{{urls_str}}" readonly hidden>
             <legend class="pure-u-1">Informations</legend>
-              <label for="stacked-url">Url</label>
-              <input type="text" id="stacked-url" class="pure-u-1" placeholder="Artist" name="url" value="{{url}}" readonly="">
               <label class="pure-u-1" for="stacked-artist">Artist</label>
               <select id="stacked-artist" name="current_artist">
                   <option value="{{current_artist}}">{{current_artist}}</option>
@@ -32,22 +30,24 @@
                     <option value="{{artist}}">{{artist}}</option>
                   {% endfor %}
               </select>
-              <legend class="pure-u-1">Remove Tags</legend>
-              {% for current_tag in list_tags %}
-                    <a href="/edit?url={{url}}&remove_tag={{current_tag}}" class="pure-button button-error">{{current_tag}}</a>
+              <button type="button" class="pure-button pure-button-primary" onclick="changeArtist()">Change Artist to Medias</button>
+              <legend class="pure-u-1">Add new Artist</legend>
+              <input type="text" class="pure-u-1-2" placeholder="Artist" name="artist" id="artist">
+              <button type="button" class="pure-button pure-button-primary" onclick="addNewArtist()">Add New Artist to Medias</button>
+
+              <legend class="pure-u-1">Remove Tags to Medias</legend>
+              {% for current_tag in current_tags %}
+                    <a href="/edit_selected?urls={{urls_str}}&remove_tag={{current_tag}}" class="pure-button button-error">{{current_tag}}</a>
               {% endfor %}
-              <label class="pure-u-1" for="available-tags">Available Tags</label>
+              <legend class="pure-u-1">Add Tags</legend>
               <div class="pure-u-1" id="available-tags">
               {% for tag in tags %}
-                  {% if tag not in current_tags %}
                     <a href="#available-tags" class="pure-button available-tag">{{tag}}</a>
-                  {% endif %}
               {% endfor %}
               </div>
-              <label class="pure-u-1" for="stacked-tags">Tags</label>
               <input type="text" id="stacked-tags" class="pure-u-1" placeholder="Tags" name="current_tags" value="">
 
-            <button type="submit" class="pure-button pure-button-primary">Update</button>
+            <button type="button" class="pure-button pure-button-primary" onclick="addTags()">Add Tags to Medias</button>
 
           </fieldset>
         </form>
@@ -59,15 +59,9 @@
         {% if commands %}
         <label class="pure-u-1">Open with</label>
             {% for software in commands %}
-            <a href="/edit?url={{url}}&command={{commands[software]}}" class="pure-button">{{software}}</a>
+            <a href="/edit_selected?urls={{urls_str}}" class="pure-button">{{software}}</a>
             {% endfor %}
         {% endif %}
-    </div>
-</div>
-
-<div class="pure-u-1">
-    <div class="form-content">
-        <a href="/delete?url={{url}}" class="pure-button button-error">Delete</a>
     </div>
 </div>
 

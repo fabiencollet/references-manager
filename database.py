@@ -250,7 +250,7 @@ class Database(object):
 
         return artist
 
-    def getTagsWithUrl(self, url):
+    def listTagsWithUrl(self, url):
 
         temp_tags = []
 
@@ -268,6 +268,12 @@ class Database(object):
             temp_tags.append(self.tab_tag.getValueById(index, "Name"))
 
         tags = list(set(temp_tags))
+
+        return tags
+
+    def getTagsWithUrl(self, url):
+
+        tags = self.listTagsWithUrl(url)
 
         return ",".join(tags)
 

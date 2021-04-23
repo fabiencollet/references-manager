@@ -45,7 +45,10 @@ db = Database(CONFIG["database"])
 ################################################################################
 
 class MainWindow(QMainWindow):
+    """ Desktop window
 
+    :return QMainWindow
+    """
     def __init__(self):
         super(MainWindow, self).__init__()
 
@@ -104,8 +107,10 @@ def index():
         if "page" in data:
             page = int(data["page"])
         if "delete" in data:
-            delete_url = data["delete"]
-            db.deletePicture(delete_url)
+            delete_urls_str = data["delete"]
+            delete_urls = delete_urls_str.split(",")
+            for delete_url in delete_urls:
+                db.deletePicture(delete_url)
 
     list_pages = [0]
     range_page = 3
@@ -137,18 +142,18 @@ def index():
 def add_medias():
     db = Database(CONFIG["database"])
     artists = db.listAllArtistName()
-    return render_template("add_medias.html", artists=artists)
+    return render_template("add_medias.html",
+                           artists=sorted(artists)
+                           )
 
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET'])
 def search():
-    if request.method == 'POST':
+    if request.method == 'GET':
         name = request.form["nm"]
-        file_type = request.form["file_type"]
 
         return render_template("search.html",
                                name=name,
-                               file_type=file_type
                                )
 
 
@@ -160,8 +165,10 @@ def artist_page(current_artist):
     if request.method == 'GET':
         data = request.args
         if "delete" in data:
-            delete_url = data["delete"]
-            db.deletePicture(delete_url)
+            delete_urls_str = data["delete"]
+            delete_urls = delete_urls_str.split(",")
+            for delete_url in delete_urls:
+                db.deletePicture(delete_url)
 
     pictures = db.getMediasByArtist(current_artist)
 
@@ -230,8 +237,10 @@ def tag_page(current_tag):
     if request.method == 'GET':
         data = request.args
         if "delete" in data:
-            delete_url = data["delete"]
-            db.deletePicture(delete_url)
+            delete_urls_str = data["delete"]
+            delete_urls = delete_urls_str.split(",")
+            for delete_url in delete_urls:
+                db.deletePicture(delete_url)
 
     pictures = db.getMediasByTag(current_tag)
 
@@ -306,7 +315,7 @@ def add_new_tag():
 @app.route('/color', methods=['GET', 'POST'])
 def color():
 
-    hue, sat, value = (6, 0.5, 0.5)
+    hue, sat, val = (6, 0.5, 0.5)
 
     db = Database(CONFIG["database"])
 
@@ -317,23 +326,20 @@ def color():
         if "sat" in data:
             sat = data["sat"]
         if "val" in data:
-            value = data["val"]
+            val = data["val"]
         if "delete" in data:
-            delete_url = data["delete"]
-            db.deletePicture(delete_url)
+            delete_urls_str = data["delete"]
+            delete_urls = delete_urls_str.split(",")
+            for delete_url in delete_urls:
+                db.deletePicture(delete_url)
 
-    if request.method == 'POST':
-        hue = request.form["hue"]
-        sat = request.form["saturation"]
-        value = request.form["value"]
-
-    pictures = db.getMediasByColor(int(hue), float(sat), float(value))
+    pictures = db.getMediasByColor(int(hue), float(sat), float(val))
 
     return render_template("color.html",
                            pictures=pictures,
                            hue=hue,
-                           saturation=sat,
-                           value=value,
+                           sat=sat,
+                           val=val,
                            dict_hue=dict_hue)
 
 
@@ -361,31 +367,34 @@ def add_local_picture():
 
     if request.method == 'POST':
         local_path = ""
-        url = request.files["url"]
+        urls = request.files.getlist("urls")
         artist = request.form["artist"]
 
         database_path = "/static/library/"
         # if user does not select file, browser also
         # submit an empty part without filename
 
-        if url and allowedFile(url.filename):
-            filename = secure_filename(url.filename)
-            local_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            database_path += filename
-            url.save(local_path)
+        list_database_path = []
 
-        if not url:
+        for url in urls:
+            if url and allowedFile(url.filename):
+                filename = secure_filename(url.filename)
+                local_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                list_database_path.append(database_path+filename)
+                url.save(local_path)
+
+        if not urls:
             return render_template("add_medias.html",
                                    info="Please enter Url",
                                    artists=artists)
 
         log.warning(database_path)
 
-        if database_path:
+        for database_path in list_database_path:
             db.addPicture(database_path, False, artist)
 
         return render_template("add_medias.html",
-                               info=f"Import Done! {filename}",
+                               info=f"Import Done! {len(urls)} new files",
                                artists=artists)
 
 
@@ -447,12 +456,16 @@ def edit():
 
     if request.method == 'GET':
         data = request.args
-        if "url" in data:
-            url = data["url"]
+
+        url = data["url"]
 
         if "command" in data:
             command = data["command"]
             subprocess.run(command)
+
+        if "remove_tag" in data:
+            remove_tag = data["remove_tag"]
+            db.removeTagToMedia(url, remove_tag)
 
         current_artist = db.getArtistWithUrl(url)
         artists = []
@@ -485,7 +498,7 @@ def edit():
     if request.method == 'POST':
         url = request.form["url"]
         current_artist = request.form["current_artist"]
-        previous_tags = request.form["previous_tags"]
+        list_previous_tags = db.listTagsWithUrl(url)
         current_tags = request.form["current_tags"]
 
         if current_artist:
@@ -498,16 +511,6 @@ def edit():
             for current_tag in list_current_tags:
                 if current_tag:
                     db.addTagToMedia(url, current_tag)
-
-            list_tags_to_remove = []
-            list_previous_tags = previous_tags.split(",")
-            for previous_tag in list_previous_tags:
-                if previous_tag not in list_current_tags:
-                    list_tags_to_remove.append(previous_tag)
-
-            if list_tags_to_remove:
-                for tag_to_remove in list_tags_to_remove:
-                    db.removeTagToMedia(url, tag_to_remove)
 
         tags = db.listAllTag()
 
@@ -530,6 +533,63 @@ def edit():
                                tags=sorted(tags),
                                color=color,
                                commands=commands)
+
+
+@app.route('/edit_selected', methods=['GET'])
+def edit_selected():
+
+    db = Database(CONFIG["database"])
+
+    urls = ""
+    current_tags = []
+    commands = ""
+
+    if request.method == 'GET':
+        data = request.args
+        if "urls" in data:
+            urls_str = data["urls"]
+            urls = urls_str.split(",")
+
+        if "add_tags" in data:
+            tags_to_add_str = data["add_tags"]
+            split_space = tags_to_add_str.split(" ")
+            without_space = "".join(split_space)
+            list_current_tags = without_space.split(",")
+            for current_tag in list_current_tags:
+                if current_tag:
+                    for url in urls:
+                        db.addTagToMedia(url, current_tag)
+
+        if "remove_tag" in data:
+            remove_tag = data["remove_tag"]
+            for url in urls:
+                db.removeTagToMedia(url, remove_tag)
+
+        if "artist" in data:
+            artist = data["artist"]
+            for url in urls:
+                db.updateArtist(url, artist)
+
+        temp_tags = []
+
+        for url in urls:
+            url_tags = db.listTagsWithUrl(url)
+            for url_tag in url_tags:
+                temp_tags.append(url_tag)
+
+        current_tags = list(set(temp_tags))
+
+    # Get database informations
+    artists = db.listAllArtistName()
+    tags = db.listAllTag()
+
+    return render_template("edit_selected.html",
+                           urls=urls,
+                           urls_str=urls_str,
+                           artists=sorted(artists),
+                           current_tags=sorted(current_tags),
+                           tags=sorted(tags),
+                           commands=commands)
 
 
 @app.route('/delete', methods=['GET'])

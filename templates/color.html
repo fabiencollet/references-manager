@@ -15,15 +15,15 @@
         </div>
       {% endfor %}
     </div>
-  <form class="form-content" action ="http://localhost:5000/color" method = "post">
+  <form class="form-content" action ="http://localhost:5000/color" method = "get">
 
     <div class="slidecontainer">
       <label class="pure-u-1">Hue <span id="hue_text"></span></label>
       <input type="range" min="0" max="11" value="{{hue}}" step="1" class="slider pure-u-1" id="hue" name="hue">
       <label class="pure-u-1">Saturation <span id="saturation_text"></span></label>
-      <input type="range" min="0" max="1" value="{{saturation}}" step="0.1" class="slider pure-u-1" id="saturation" name="saturation">
+      <input type="range" min="0" max="1" value="{{sat}}" step="0.1" class="slider pure-u-1" id="sat" name="sat">
       <label class="pure-u-1">Value <span id="value_text"></span></label>
-      <input type="range" min="0" max="1" value="{{value}}" step="0.1" class="slider pure-u-1" id="value" name="value">
+      <input type="range" min="0" max="1" value="{{val}}" step="0.1" class="slider pure-u-1" id="val" name="val">
 
       <button type="submit" class="color_preview search_color pure-button pure-u-1">Search</button>
     </div>
@@ -31,87 +31,8 @@
 
 </div>
 
+{% include "gallery.html" %}
 
-<div class="gallery pure-u-1">
-
-  <div class="col-gallery">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 1 %}
-      <article>
-        <a href="#{{pictures[i]['url']}}">
-          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
-        </a>
-        <div class="options">
-          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
-          {% if i == 1 %}
-            <a href="/color?hue={{hue}}&sat={{saturation}}&val={{value}}&delete={{pictures[i]['url']}}#img{{i}}" class="delete">x</a>
-          {% else %}
-            <a href="/color?hue={{hue}}&sat={{saturation}}&val={{value}}&delete={{pictures[i]['url']}}#img{{i-1}}" class="delete">x</a>
-          {% endif %}
-        </div>
-      </article>
-      {% endif %}
-    {% endfor %}
-  </div>
-
-  <div class="col-gallery">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 2 %}
-      <article>
-        <a href="#{{pictures[i]['url']}}">
-          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
-        </a>
-        <div class="options">
-          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
-            <a href="/color?hue={{hue}}&sat={{saturation}}&val={{value}}&delete={{pictures[i]['url']}}#img{{i-1}}" class="delete">x</a>
-        </div>
-      </article>
-      {% endif %}
-    {% endfor %}
-  </div>
-
-  <div class="col-gallery">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 3 %}
-      <article>
-        <a href="#{{pictures[i]['url']}}">
-          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
-        </a>
-        <div class="options">
-          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
-            <a href="/color?hue={{hue}}&sat={{saturation}}&val={{value}}&delete={{pictures[i]['url']}}#img{{i-1}}" class="delete">x</a>
-        </div>
-      </article>
-      {% endif %}
-    {% endfor %}
-  </div>
-
-  <div class="col-gallery">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 4 %}
-      <article>
-        <a href="#{{pictures[i]['url']}}">
-          <img src="{{pictures[i]['url']}}" style="width:100%" class="project-image" id="img{{i}}">
-        </a>
-        <div class="options">
-          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
-            <a href="/color?hue={{hue}}&sat={{saturation}}&val={{value}}&delete={{pictures[i]['url']}}#img{{i-1}}" class="delete">x</a>
-        </div>
-      </article>
-      {% endif %}
-    {% endfor %}
-  </div>
-
-</div>
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-	<span class="close">×</span>
-	<img class="modal-content" id="img01">
-	<div id="caption"></div>
-</div>
-
-<script src="{{ url_for('static', filename='js/modal.js') }}"></script>
 <script src="{{ url_for('static', filename='js/color.js') }}"></script>
 
 {% endblock %}

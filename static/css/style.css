@@ -37,7 +37,6 @@ body {
 .col-gallery img {
   margin-top: 8px;
   vertical-align: middle;
-  width: 100%;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
@@ -476,7 +475,6 @@ Tags
 }
 
 
-
 article{
 	display: block;
 }
@@ -490,6 +488,12 @@ article:hover .options{
 	max-width: 100%;
 	margin: 0 auto;
 	display: block;
+}
+.image-multi{
+    float: left;
+	display: block;
+	max-width: 250px;
+	margin:5px;
 }
 
 .button-success,
@@ -591,3 +595,32 @@ article:hover .options{
     background-color: rgb(0, 120, 231);
     color: white;
 }
+
+.project-image{
+    padding: 0%;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    transition-duration: 0.5s;
+}
+
+.to_select{
+    padding: 0%;
+    width: 98%;
+    transition-duration: 0.3s;
+}
+
+.to_select:hover{
+    padding: 0%;
+    width: 100%;
+    transition-property: width;
+    transition-duration: 0.3s;
+}
+
+.is_select{
+    width: 100%;
+    padding: 2%;
+    background-color: rgb(28, 184, 65);
+    transition-duration: 0.3s;
+}
+

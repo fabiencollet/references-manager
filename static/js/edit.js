@@ -1,6 +1,7 @@
 // Get the modal
 var line_tags = document.getElementById('stacked-tags');
 
+
 // Get the image and insert it inside the modal - use its "alt" text as a caption
 
 function setToggleTag(){
@@ -55,3 +56,35 @@ function setToggleTag(){
 }
 
 setToggleTag();
+
+function addTags(){
+    var urls = document.getElementById('urls').value;
+    if(line_tags.value == ""){
+        return;
+    }
+    else{
+        document.location.href = "/edit_selected?urls="+urls+"&add_tags="+line_tags.value;
+    }
+}
+
+function addNewArtist(){
+    var urls = document.getElementById('urls').value;
+    var artist = document.getElementById('artist');
+    if(artist.value == ""){
+        return;
+    }
+    else{
+        document.location.href = "/edit_selected?urls="+urls+"&artist="+artist.value;
+    }
+}
+
+function changeArtist(){
+    var urls = document.getElementById('urls').value;
+    var artist = document.getElementById('stacked-artist');
+    if(artist.value == ""){
+        return;
+    }
+    else{
+        document.location.href = "/edit_selected?urls="+urls+"&artist="+artist.value;
+    }
+}

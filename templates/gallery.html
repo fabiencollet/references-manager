@@ -1,21 +1,31 @@
-{% extends "base.html" %}
-{% block content %}
-
-<!-- Header -->
-<div class="header-title pure-u-1">
-  <h1>Gallery</h1>
-  <p>Resize the browser window to see the responsive effect.</p>
-  <p>Number Pictures : {{nb_pictures}}</p>
-  <p>Medias : {{medias}}</p>
+<div class="form-content">
+  <div class="pure-u-1">
+    <div class="pure-u-3-24">
+      <button name="select" onclick="selectMenu()" class="pure-button pure-button-primary" style="width:100%">Select</button>
+    </div>
+    <div class="pure-u-18-24" id="modify_options" style="visibility: hidden;">
+      <button name="select_all" onclick="selectAll()" class="pure-button pure-button-primary">Select All</button>
+      <button name="deselect_all" onclick="deselectAll()" class="pure-button pure-button-primary">Deselect All</button>
+      <button name="edit_selected" onclick="editSelected()" class="pure-button button-warning">Edit Selected</button>
+      <button name="delete_selected" onclick="deleteSelected()" class="pure-button button-error">Delete Selected Medias</button>
+    </div>
+  </div>
 </div>
 
 
-<div class="gallery">
+<div class="gallery pure-u-1">
 
   <div class="col-gallery">
     {% for i in pictures %}
       {% if pictures[i]["column"] == 1 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+        </div>
+      </article>
       {% endif %}
     {% endfor %}
   </div>
@@ -23,7 +33,14 @@
   <div class="col-gallery">
     {% for i in pictures %}
       {% if pictures[i]["column"] == 2 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+        </div>
+      </article>
       {% endif %}
     {% endfor %}
   </div>
@@ -31,7 +48,14 @@
   <div class="col-gallery">
     {% for i in pictures %}
       {% if pictures[i]["column"] == 3 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+        </div>
+      </article>
       {% endif %}
     {% endfor %}
   </div>
@@ -39,11 +63,25 @@
   <div class="col-gallery">
     {% for i in pictures %}
       {% if pictures[i]["column"] == 4 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
+      <article>
+        <a href="#{{pictures[i]['url']}}">
+          <img src="{{pictures[i]['url']}}" class="project-image" id="img{{i}}">
+        </a>
+        <div class="options">
+          <a href="/edit?url={{pictures[i]['url']}}" class="edit">...</a>
+        </div>
+      </article>
       {% endif %}
     {% endfor %}
   </div>
 
 </div>
 
-{% endblock %}
+<!-- The Modal -->
+<div id="myModal" class="modal">
+	<span id="close" class="close">×</span>
+	<img class="modal-content" id="img01">
+	<div id="caption"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/modal.js') }}"></script>

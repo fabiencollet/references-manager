@@ -123,12 +123,3 @@ def openImage(url):
             im = Image.open(url)
 
     return im
-
-# TEST
-################################################################################
-
-# URL_TEST = "https://www.iamag.co/the-art-of-arthus-pilorget"
-#
-# pics = getPicturesFromURL(URL_TEST)
-#
-# pprint.pprint(picturesToGallery(pics))

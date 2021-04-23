@@ -4,8 +4,8 @@ var text_color_preview = document.getElementsByClassName('text_color_preview');
 
 
 var hue = document.getElementById('hue');
-var saturation = document.getElementById('saturation');
-var light = document.getElementById('value');
+var saturation = document.getElementById('sat');
+var light = document.getElementById('val');
 
 var hue_text = document.getElementById('hue_text');
 var saturation_text = document.getElementById('saturation_text');

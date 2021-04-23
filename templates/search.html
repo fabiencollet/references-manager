@@ -2,46 +2,38 @@
 {% block content %}
 
 <!-- Header -->
-<div class="header-title">
-  <h1>SEARCH</h1>
+<div class="header-title pure-u-1">
+    <!-- <h1>Hue - {{hue}} Saturation - {{saturation}} Value - {{value}}</h1> -->
+    <h1 class="pure-u-1">Search</h1>
+</div>
 
-  <p>Name : {{name}}</p>
-  <p>Type : {{file_type}}</p>
+
+<div class="pure-u-1">
+  <div class="all_hue">
+      {% for hue in dict_hue %}
+        <div class="hue" style="background-color: rgb{{dict_hue[hue]['rgb']}}">
+        </div>
+      {% endfor %}
+    </div>
+  <form class="form-content" action ="http://localhost:5000/color" method = "post">
+
+    <div class="slidecontainer">
+      <label class="pure-u-1">Hue <span id="hue_text"></span></label>
+      <input type="range" min="0" max="11" value="{{hue}}" step="1" class="slider pure-u-1" id="hue" name="hue">
+      <label class="pure-u-1">Saturation <span id="saturation_text"></span></label>
+      <input type="range" min="0" max="1" value="{{saturation}}" step="0.1" class="slider pure-u-1" id="saturation" name="saturation">
+      <label class="pure-u-1">Value <span id="value_text"></span></label>
+      <input type="range" min="0" max="1" value="{{value}}" step="0.1" class="slider pure-u-1" id="value" name="value">
+
+      <button type="submit" class="color_preview search_color pure-button pure-u-1">Search</button>
+    </div>
+  </form>
 
 </div>
 
 
-<div class="row">
+{% include "gallery.html" %}
 
-  <div class="column">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 1 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
-      {% endif %}
-    {% endfor %}
-  </div>
-  <div class="column">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 2 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
-      {% endif %}
-    {% endfor %}
-  </div>
-  <div class="column">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 3 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
-      {% endif %}
-    {% endfor %}
-  </div>
-  <div class="column">
-    {% for i in pictures %}
-      {% if pictures[i]["column"] == 4 %}
-      <img src="{{pictures[i]['url']}}" style="width:100%">
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
-
+<script src="{{ url_for('static', filename='js/color.js') }}"></script>
 
 {% endblock %}
