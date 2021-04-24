@@ -70,16 +70,26 @@ def allowedFile(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def buildCommands(url):
+def getSoftwares():
+    list_softwares = []
+    for software in CONFIG["software"]:
+        list_softwares.append(software)
+
+    return list_softwares
+
+
+def buildCommands(urls):
+
     commands = {}
 
-    if url[:5] not in HTTPS:
+    for software in CONFIG["software"]:
+        software_path = CONFIG["software"][software]
+        commands[software] = f'"{software_path}"'
+        for url in urls:
+            if url[:5] not in HTTPS:
+                filepath = os.sep.join([str(os.getcwd()), url])
 
-        filepath = os.sep.join([str(os.getcwd()), url])
-
-        for software in CONFIG["software"]:
-            software_path = CONFIG["software"][software]
-            commands[software] = f'"{software_path}" {filepath}'
+                commands[software] += f' "{filepath}"'
 
     return commands
 
@@ -180,12 +190,25 @@ def artist_page(current_artist):
                            artists=sorted(artists))
 
 
-@app.route('/artist')
+@app.route('/artist', methods=['GET'])
 def artist():
 
     current_artist = "Unknown"
 
     db = Database(CONFIG["database"])
+
+    if request.method == 'GET':
+        data = request.args
+        if 'deleteArtist' in data:
+            deleteArtist = data['deleteArtist']
+            db.deleteArtist(deleteArtist)
+
+        if "delete" in data:
+            delete_urls_str = data["delete"]
+            delete_urls = delete_urls_str.split(",")
+            for delete_url in delete_urls:
+                db.deletePicture(delete_url)
+
     pictures = db.getMediasByArtist(current_artist)
 
     artists = db.listAllArtistName()
@@ -269,6 +292,12 @@ def tag():
         if 'deleteTag' in data:
             delete_tag = data['deleteTag']
             db.deleteTag(delete_tag)
+
+        if "delete" in data:
+            delete_urls_str = data["delete"]
+            delete_urls = delete_urls_str.split(",")
+            for delete_url in delete_urls:
+                db.deletePicture(delete_url)
 
     pictures = db.getMediasByTag(current_tag)
 
@@ -459,9 +488,11 @@ def edit():
 
         url = data["url"]
 
-        if "command" in data:
-            command = data["command"]
-            subprocess.run(command)
+        if "software" in data:
+            list_url = [url]
+            software = data["software"]
+            commands = buildCommands(list_url)
+            subprocess.run(commands[software])
 
         if "remove_tag" in data:
             remove_tag = data["remove_tag"]
@@ -474,22 +505,6 @@ def edit():
         for artist in temp_artists:
             if artist != current_artist:
                 artists.append(artist)
-
-        current_tags = db.getTagsWithUrl(url)
-        tags = db.listAllTag()
-
-        color = db.getColorWithUrl(url)
-
-        commands = buildCommands(url)
-
-        return render_template("edit.html",
-                               url=url,
-                               current_artist=current_artist,
-                               artists=sorted(artists),
-                               current_tags=current_tags,
-                               tags=sorted(tags),
-                               color=color,
-                               commands=commands)
 
     ############################################################################
     # POST
@@ -521,18 +536,22 @@ def edit():
             if artist != current_artist:
                 artists.append(artist)
 
-        color = db.getColorWithUrl(url)
+    # Get other informations
 
-        commands = buildCommands(url)
+    color = db.getColorWithUrl(url)
+    softwares = getSoftwares()
 
-        return render_template("edit.html",
-                               url=url,
-                               current_artist=current_artist,
-                               artists=sorted(artists),
-                               current_tags=current_tags,
-                               tags=sorted(tags),
-                               color=color,
-                               commands=commands)
+    current_tags = db.listTagsWithUrl(url)
+    tags = db.listAllTag()
+
+    return render_template("edit.html",
+                           url=url,
+                           current_artist=current_artist,
+                           artists=sorted(artists),
+                           current_tags=sorted(current_tags),
+                           tags=sorted(tags),
+                           color=color,
+                           softwares=softwares)
 
 
 @app.route('/edit_selected', methods=['GET'])
@@ -549,6 +568,12 @@ def edit_selected():
         if "urls" in data:
             urls_str = data["urls"]
             urls = urls_str.split(",")
+            commands = buildCommands(urls)
+
+        if "software" in data:
+            software = data["software"]
+            subprocess.run(commands[software])
+
 
         if "add_tags" in data:
             tags_to_add_str = data["add_tags"]
@@ -582,6 +607,7 @@ def edit_selected():
     # Get database informations
     artists = db.listAllArtistName()
     tags = db.listAllTag()
+    softwares = getSoftwares()
 
     return render_template("edit_selected.html",
                            urls=urls,
@@ -589,7 +615,7 @@ def edit_selected():
                            artists=sorted(artists),
                            current_tags=sorted(current_tags),
                            tags=sorted(tags),
-                           commands=commands)
+                           softwares=softwares)
 
 
 @app.route('/delete', methods=['GET'])
@@ -600,10 +626,6 @@ def delete():
     if 'url' in data:
         url = data['url']
         db.deletePicture(url)
-
-    if 'artist' in data:
-        artist = data['artist']
-        db.deleteArtist(artist)
 
     pictures = db.getAllMedias(0, 50)
 

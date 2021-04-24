@@ -5,7 +5,8 @@
   },
   "software": {
     "krita": "D:\\Program Files\\Krita (x64)\\bin\\krita.exe",
-    "pureref": "D:\\Program Files\\PureRef\\PureRef.exe"
+    "pureref": "D:\\Program Files\\PureRef\\PureRef.exe",
+    "inkscape": "D:\\Program Files\\Inkscape\\bin\\inkscape.exe"
   },
   "database": "references.sqlite",
   "allowed_extensions": [

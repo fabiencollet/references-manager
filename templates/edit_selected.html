@@ -56,12 +56,10 @@
 
 <div class="pure-u-1">
     <div class="form-content">
-        {% if commands %}
         <label class="pure-u-1">Open with</label>
-            {% for software in commands %}
-            <a href="/edit_selected?urls={{urls_str}}" class="pure-button">{{software}}</a>
+            {% for software in softwares %}
+            <a href="/edit_selected?urls={{urls_str}}&software={{software}}" class="pure-button">{{software}}</a>
             {% endfor %}
-        {% endif %}
     </div>
 </div>
 

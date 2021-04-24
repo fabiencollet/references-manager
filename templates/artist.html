@@ -4,7 +4,7 @@
 <!-- Header -->
 <div class="header-title pure-u-1">
   <h1>Artist - {{current_artist}}</h1>
-  <a href="/delete?artist={{current_artist}}" class="pure-button button-error">Delete {{current_artist}}</a>
+  <a href="/artist?deleteArtist={{current_artist}}" class="pure-button button-error">Delete {{current_artist}}</a>
 </div>
 
 
@@ -21,8 +21,6 @@
   </div>
 </div>
 <div class="form-content">
-
-
 
 <form class="pure-form" action ="http://localhost:5000/add_new_artist" method = "post">
   <fieldset>

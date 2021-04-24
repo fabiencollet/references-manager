@@ -5,8 +5,7 @@
 <div class="header-title pure-u-1">
     <h2>Artist - <a href="/artist/{{current_artist}}" class="tag-link">{{current_artist}}</a></h2>
     <h2>Tags -
-        {% set list_tags = current_tags.split(",") %}
-        {% for tag in list_tags %}
+        {% for tag in current_tags %}
         <a href="/tag/{{tag}}" class="tag-link">{{tag}}</a>
         {% endfor %}
     </h2>
@@ -33,14 +32,14 @@
                   {% endfor %}
               </select>
               <legend class="pure-u-1">Remove Tags</legend>
-              {% for current_tag in list_tags %}
+              {% for current_tag in current_tags %}
                     <a href="/edit?url={{url}}&remove_tag={{current_tag}}" class="pure-button button-error">{{current_tag}}</a>
               {% endfor %}
               <label class="pure-u-1" for="available-tags">Available Tags</label>
               <div class="pure-u-1" id="available-tags">
               {% for tag in tags %}
                   {% if tag not in current_tags %}
-                    <a href="#available-tags" class="pure-button available-tag">{{tag}}</a>
+                    <button type="button" class="pure-button available-tag">{{tag}}</button>
                   {% endif %}
               {% endfor %}
               </div>
@@ -56,12 +55,10 @@
 
 <div class="pure-u-1">
     <div class="form-content">
-        {% if commands %}
         <label class="pure-u-1">Open with</label>
-            {% for software in commands %}
-            <a href="/edit?url={{url}}&command={{commands[software]}}" class="pure-button">{{software}}</a>
+            {% for software in softwares %}
+            <a href="/edit?url={{url}}&software={{software}}" class="pure-button">{{software}}</a>
             {% endfor %}
-        {% endif %}
     </div>
 </div>
 
