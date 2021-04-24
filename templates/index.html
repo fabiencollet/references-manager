@@ -8,4 +8,16 @@
 
 {% include "gallery.html" %}
 
+<div class="pure-u-1">
+  <div class="all_page" style="width:{{width_buttons}}px">
+  {% for page in list_pages %}
+    {% if page == current_page %}
+    <a href="/?page={{page}}" class="page active">{{page}}</a>
+    {% else %}
+    <a href="/?page={{page}}" class="page">{{page}}</a>
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+
 {% endblock %}

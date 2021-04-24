@@ -341,7 +341,7 @@ class Database(object):
 
             local_path = os.sep.join([UPLOAD_FOLDER, file])
 
-            if not os.path.isfile(local_path) or ext not in ALLOWED_EXTENSIONS:
+            if not os.path.isfile(local_path) or ext.lower() not in ALLOWED_EXTENSIONS:
                 self.tab_media.deleteLineWhen("Url", url)
 
         for file in os.listdir(UPLOAD_FOLDER):
@@ -357,7 +357,7 @@ class Database(object):
 
             filename, ext = split_file
 
-            if ext not in ALLOWED_EXTENSIONS:
+            if ext.lower() not in ALLOWED_EXTENSIONS:
                 os.remove(local_path)
                 continue
 

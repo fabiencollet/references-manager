@@ -1,6 +1,5 @@
 import os
 import logging
-import pprint
 
 from PIL import Image
 import requests
@@ -44,7 +43,7 @@ def isValidPictureUrl(url):
     path, file = os.path.split(url)
     name, ext = os.path.splitext(file)
 
-    if ext in PICTURES_EXTENSIONS:
+    if ext.lower() in PICTURES_EXTENSIONS:
         return True
     else:
         return False
@@ -105,7 +104,7 @@ def openImage(url):
     file_name, ext = os.path.splitext(url)
 
     # Open Image
-    if ext == ".png":
+    if ext.lower() == ".png":
         if from_internet:
             path = requests.get(url, stream=True).raw
             image = Image.open(path)
@@ -115,7 +114,7 @@ def openImage(url):
         im = Image.composite(image, Image.new('RGB', image.size, 'white'),
                              image)
 
-    elif ext in PICTURES_EXTENSIONS:
+    elif ext.lower() in PICTURES_EXTENSIONS:
         if from_internet:
             path = requests.get(url, stream=True).raw
             im = Image.open(path)
